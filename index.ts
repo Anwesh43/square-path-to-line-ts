@@ -205,3 +205,25 @@ class SquarePathToLine {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    sptl : SquarePathToLine = new SquarePathToLine()
+    animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.sptl.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.sptl.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.sptl.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
