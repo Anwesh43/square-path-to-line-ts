@@ -28,3 +28,40 @@ class ScaleUtil {
         return Math.sin(scale * Math.PI)
     }
 }
+
+class DrawingUtil {
+
+    static drawLine(context : CanvasRenderingContext2D, x1 : number, y1 : number, x2 : number, y2 : number) {
+        context.beginPath()
+        context.moveTo(x1, y1)
+        context.lineTo(x2, y2)
+        context.stroke()
+    }
+
+    static drawSquarePathToLine(context : CanvasRenderingContext2D, scale : number) {
+        const size : number = Math.min(w, h) / sizeFactor 
+        const sf : number = ScaleUtil.sinify(scale)
+        const sf1 : number = ScaleUtil.divideScale(sf, 0, parts)
+        const sf2 : number = ScaleUtil.divideScale(sf, 1, parts)
+        const sf3 : number = ScaleUtil.divideScale(sf, 2, parts)
+        const sf4 : number = ScaleUtil.divideScale(sf, 3, parts)
+        context.save()  
+        context.translate(w / 2, h / 2)
+        context.rotate((Math.PI / 2) * sf4)
+        for (var j = 0; j < 2; j++) {
+            const y : number = size * sf1 
+            const x : number = -size / 2 + j * size * sf2 + (1 - j) * sf3 
+            DrawingUtil.drawLine(context, x, -y / 2, x,  y / 2)
+        }
+        context.fillRect(-size / 2 + size * sf3, -size / 2, size * (sf2 - sf3), size)
+        context.restore()
+    }
+
+    static drawSPTLNode(context : CanvasRenderingContext2D, i : number, scale : number) {
+        context.lineCap = 'round'
+        context.lineWidth = Math.min(w, h) / strokeFactor 
+        context.fillStyle = colors[i]
+        context.strokeStyle = colors[i]
+        DrawingUtil.drawSquarePathToLine(context, scale)
+    }
+}
