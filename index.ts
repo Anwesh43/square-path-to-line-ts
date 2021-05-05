@@ -50,7 +50,7 @@ class DrawingUtil {
         context.rotate((Math.PI / 2) * sf4)
         for (var j = 0; j < 2; j++) {
             const y : number = size * sf1 
-            const x : number = -size / 2 + j * size * sf2 + (1 - j) * sf3 
+            const x : number = -size / 2 + j * size * sf2 + (1 - j) * sf3 * size
             DrawingUtil.drawLine(context, x, -y / 2, x,  y / 2)
         }
         context.fillRect(-size / 2 + size * sf3, -size / 2, size * (sf2 - sf3), size)
